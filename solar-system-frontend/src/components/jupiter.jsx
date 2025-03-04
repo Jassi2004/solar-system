@@ -6,7 +6,7 @@ useGLTF.preload("/model/jupiter.glb");
 
 function MercuryModel() {
     const model = useGLTF("/model/jupiter.glb", true, true);
-    if(model) console.log("Hello")
+    // if(model) console.log("Hello")
     useEffect(() => {
         // Cleanup function
         return () => {
@@ -22,7 +22,7 @@ function MercuryModel() {
 
     // Error handling
     if (!model) {
-        console.error("Failed to load jupiter model");
+        console.error("Failed to load Jupiter model");
         return null;
     }
 
@@ -48,7 +48,7 @@ function LoadingFallback() {
 }
 
 // Main component with error boundary
-function jupiter() {
+function Jupiter() {
     return (
         <Suspense fallback={<LoadingFallback />}>
             <MercuryModel />
@@ -56,4 +56,4 @@ function jupiter() {
     );
 }
 
-export default jupiter;
+export default Jupiter;

@@ -29,8 +29,8 @@ function SunModel() {
     return (
         <primitive
             object={model.scene}
-            scale={[.5, .8, .5]}
-            position={[-30, 0, 0]}
+            scale={[.5, .5, .5]}
+            position={[-20, 0, 0]}
             rotation={[0, 0, 0]}
             dispose={null}
         />

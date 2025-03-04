@@ -6,7 +6,7 @@ useGLTF.preload("/model/earth.glb");
 
 function EarthModel() {
     const model = useGLTF("/model/earth.glb", true, true);
-    if(model) console.log("Hello")
+    // if(model) console.log("Hello")
     useEffect(() => {
         // Cleanup function
         return () => {
@@ -30,7 +30,7 @@ function EarthModel() {
         <primitive
             object={model.scene}
             scale={[.5, .5, .5]}
-            position={[3,0,0]}
+            position={[-8,0,0]}
             rotation={[0, 0, 0]}
             dispose={null}
         />
