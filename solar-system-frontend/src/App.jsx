@@ -83,7 +83,7 @@ export default function App() {
 
         {/* Planets */}
         <group position={[5, 0, 0]}>
-          <Mercury />
+          {/* <Mercury /> */}
           <Venus />
           <Earth />
           <Mars />

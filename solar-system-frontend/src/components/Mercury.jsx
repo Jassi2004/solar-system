@@ -1,35 +1,31 @@
 import { useGLTF } from "@react-three/drei";
-import { Suspense, useRef } from "react";
+import { Suspense, useRef, useContext } from "react";
 import { useFrame } from "@react-three/fiber";
-import * as THREE from "three";
+// import { AppContext } from "../AppContext"; // Import AppContext
 
 // Preload the model
 useGLTF.preload("/model/mercury.glb");
 
 function MercuryModel() {
   const model = useGLTF("/model/mercury.glb");
-  const mercuryRef = useRef(); // Ref for Mercury's position
+  const mercuryRef = useRef();
+  const { planetSettings } = useContext(AppContext); // Get settings from context
+  const { speed, radius, centerX, centerZ, scale } = planetSettings.mercury;
 
   useFrame(({ clock }) => {
     if (!mercuryRef.current) return;
 
-    const t = clock.getElapsedTime() * 1; // Adjust speed
-    const radius = 10; // Orbit radius
-
-    // ✅ Set orbit center to (-35, 0, 0)
-    const centerX = -45;
-    const centerZ = 0;
-
-    mercuryRef.current.position.x = centerX + radius * Math.cos(t); // Orbit around X
-    mercuryRef.current.position.z = centerZ + radius * Math.sin(t); // Orbit around Z
+    const t = clock.getElapsedTime() * speed; // Use dynamic speed
+    mercuryRef.current.position.x = centerX + radius * Math.cos(t);
+    mercuryRef.current.position.z = centerZ + radius * Math.sin(t);
   });
 
   return (
     <primitive
       ref={mercuryRef}
       object={model.scene}
-      scale={[0.009, 0.009, 0.009]}
-      position={[-35, 0, 0]} // Ensure correct starting position
+      scale={scale}
+      position={[centerX, 0, centerZ]} // Start at center
       rotation={[0, 0, 0]}
       dispose={null}
     />
