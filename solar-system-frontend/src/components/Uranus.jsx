@@ -2,10 +2,10 @@ import { useGLTF } from "@react-three/drei";
 import { Suspense, useEffect } from "react";
 
 // Preload the model
-useGLTF.preload("/model/earth.glb");
+useGLTF.preload("/model/uranus.glb");
 
-function EarthModel() {
-    const model = useGLTF("/model/earth.glb", true, true);
+function UranusModel() {
+    const model = useGLTF("/model/uranus.glb", true, true);
     if(model) console.log("Hello")
     useEffect(() => {
         // Cleanup function
@@ -22,7 +22,7 @@ function EarthModel() {
 
     // Error handling
     if (!model) {
-        console.error("Failed to load Earth model");
+        console.error("Failed to load Uranus model");
         return null;
     }
 
@@ -48,12 +48,12 @@ function LoadingFallback() {
 }
 
 // Main component with error boundary
-function Earth() {
+function Uranus() {
     return (
         <Suspense fallback={<LoadingFallback />}>
-            <EarthModel />
+            <UranusModel />
         </Suspense>
     );
 }
 
-export default Earth;
+export default Uranus;
