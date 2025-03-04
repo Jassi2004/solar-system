@@ -2,11 +2,11 @@ import { useGLTF } from "@react-three/drei";
 import { Suspense, useEffect } from "react";
 
 // Preload the model
-useGLTF.preload("/model/sun.glb");
+useGLTF.preload("/model/earth.glb");
 
-function SunModel() {
-    const model = useGLTF("/model/sun.glb", true, true);
-
+function EarthModel() {
+    const model = useGLTF("/model/earth.glb", true, true);
+    if(model) console.log("Hello")
     useEffect(() => {
         // Cleanup function
         return () => {
@@ -22,15 +22,15 @@ function SunModel() {
 
     // Error handling
     if (!model) {
-        console.error("Failed to load sun model");
+        console.error("Failed to load Earth model");
         return null;
     }
 
     return (
         <primitive
             object={model.scene}
-            scale={[.5, .8, .5]}
-            position={[-30, 0, 0]}
+            scale={[.5, .5, .5]}
+            position={[3,0,0]}
             rotation={[0, 0, 0]}
             dispose={null}
         />
@@ -48,12 +48,12 @@ function LoadingFallback() {
 }
 
 // Main component with error boundary
-function Sun() {
+function Earth() {
     return (
         <Suspense fallback={<LoadingFallback />}>
-            <SunModel />
+            <EarthModel />
         </Suspense>
     );
 }
 
-export default Sun;
+export default Earth;

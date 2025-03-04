@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-    <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ position: [0, 0, 10] }}>
+    <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ position: [0, 0, 20] }}>
       {/* <Sun/> */}
       <ambientLight intensity={0.5} />
   
