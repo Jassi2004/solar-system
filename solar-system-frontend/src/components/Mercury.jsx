@@ -30,7 +30,7 @@ function MercuryModel() {
         <primitive
             object={model.scene}
             scale={[.5, .5, .5]}
-            position={[0, 0, 0]}
+            position={[3,0,0]}
             rotation={[0, 0, 0]}
             dispose={null}
         />

@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-    <Canvas style={{ width: '100vw', height: '100vh' }}>
+    <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ position: [0, 0, 10] }}>
       {/* <Sun/> */}
       <ambientLight intensity={0.5} />
   
@@ -22,6 +22,7 @@ function App() {
   {/* Point light to illuminate Mercury from a specific spot */}
   <pointLight position={[2, 2, 2]} intensity={1.5} />
 
+      <Sun/>
       <Mercury/>
     </Canvas>
     </>
