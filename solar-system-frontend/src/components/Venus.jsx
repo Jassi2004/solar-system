@@ -5,55 +5,55 @@ import { Suspense, useEffect } from "react";
 useGLTF.preload("/model/venus.glb");
 
 function VenusModel() {
-    const model = useGLTF("/model/venus.glb", true, true);
-    if(model) console.log("Hello")
-    useEffect(() => {
-        // Cleanup function
-        return () => {
-            if (model) {
-                Object.values(model).forEach(value => {
-                    if (value?.dispose) {
-                        value.dispose();
-                    }
-                });
-            }
-        };
-    }, [model]);
+  const model = useGLTF("/model/venus.glb", true, true);
+//   if (model) console.log("Hello");
+  useEffect(() => {
+    // Cleanup function
+    return () => {
+      if (model) {
+        Object.values(model).forEach((value) => {
+          if (value?.dispose) {
+            value.dispose();
+          }
+        });
+      }
+    };
+  }, [model]);
 
-    // Error handling
-    if (!model) {
-        console.error("Failed to load Venus model");
-        return null;
-    }
+  // Error handling
+  if (!model) {
+    console.error("Failed to load Venus model");
+    return null;
+  }
 
-    return (
-        <primitive
-            object={model.scene}
-            scale={[.5, .5, .5]}
-            position={[3,0,0]}
-            rotation={[0, 0, 0]}
-            dispose={null}
-        />
-    );
+  return (
+    <primitive
+      object={model.scene}
+      scale={[1.2, 1.2, 1.2]}
+      position={[-30, 1, 0]}
+      rotation={[0, 0, 0]}
+      dispose={null}
+    />
+  );
 }
 
 // Fallback component while loading
 function LoadingFallback() {
-    return (
-        <mesh>
-            <boxGeometry args={[5, 5, 5]} />
-            <meshStandardMaterial color="gray" wireframe={true} />
-        </mesh>
-    );
+  return (
+    <mesh>
+      <boxGeometry args={[5, 5, 5]} />
+      <meshStandardMaterial color="gray" wireframe={true} />
+    </mesh>
+  );
 }
 
 // Main component with error boundary
 function Venus() {
-    return (
-        <Suspense fallback={<LoadingFallback />}>
-            <VenusModel />
-        </Suspense>
-    );
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <VenusModel />
+    </Suspense>
+  );
 }
 
 export default Venus;
