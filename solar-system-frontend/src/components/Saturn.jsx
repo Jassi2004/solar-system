@@ -1,36 +1,34 @@
 import { useGLTF } from "@react-three/drei";
-import { Suspense, useEffect } from "react";
+import { Suspense, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 
 // Preload the model
 useGLTF.preload("/model/saturn.glb");
 
 function SaturnModel() {
-  const model = useGLTF("/model/saturn.glb", true, true);
-  //   if (model) console.log("Hello");
-  useEffect(() => {
-    // Cleanup function
-    return () => {
-      if (model) {
-        Object.values(model).forEach((value) => {
-          if (value?.dispose) {
-            value.dispose();
-          }
-        });
-      }
-    };
-  }, [model]);
+  const model = useGLTF("/model/saturn.glb");
+  const saturnRef = useRef(); // Ref for Saturn's position
 
-  // Error handling
-  if (!model) {
-    console.error("Failed to load Saturn model");
-    return null;
-  }
+  useFrame(({ clock }) => {
+    if (!saturnRef.current) return;
+
+    const t = clock.getElapsedTime() * 0.8; // Adjust speed
+    const radius = 50; // Larger orbit radius
+
+    // ✅ Set orbit center to (-110, 0, 0)
+    const centerX = -40;
+    const centerZ = 0;
+
+    saturnRef.current.position.x = centerX + radius * Math.cos(t); // Orbit around X
+    saturnRef.current.position.z = centerZ + radius * Math.sin(t); // Orbit around Z
+  });
 
   return (
     <primitive
+      ref={saturnRef}
       object={model.scene}
       scale={[3, 3, 3]}
-      position={[3, 2, 0]}
+      position={[-110, 2, 0]} // Ensure correct starting position
       rotation={[0, 0, 0]}
       dispose={null}
     />
@@ -42,12 +40,12 @@ function LoadingFallback() {
   return (
     <mesh>
       <boxGeometry args={[5, 5, 5]} />
-      <meshStandardMaterial color="gray" wireframe={true} />
+      <meshStandardMaterial color="gray" wireframe />
     </mesh>
   );
 }
 
-// Main component with error boundary
+// Main Saturn component
 function Saturn() {
   return (
     <Suspense fallback={<LoadingFallback />}>

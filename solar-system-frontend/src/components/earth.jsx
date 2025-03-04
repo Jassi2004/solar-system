@@ -1,36 +1,34 @@
 import { useGLTF } from "@react-three/drei";
-import { Suspense, useEffect } from "react";
+import { Suspense, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 
 // Preload the model
 useGLTF.preload("/model/earth.glb");
 
 function EarthModel() {
-  const model = useGLTF("/model/earth.glb", true, true);
-  // if(model) console.log("Hello")
-  useEffect(() => {
-    // Cleanup function
-    return () => {
-      if (model) {
-        Object.values(model).forEach((value) => {
-          if (value?.dispose) {
-            value.dispose();
-          }
-        });
-      }
-    };
-  }, [model]);
+  const model = useGLTF("/model/earth.glb");
+  const earthRef = useRef(); // Ref for Earth's position
 
-  // Error handling
-  if (!model) {
-    console.error("Failed to load Earth model");
-    return null;
-  }
+  useFrame(({ clock }) => {
+    if (!earthRef.current) return;
+
+    const t = clock.getElapsedTime() * 0.9; // Adjust speed
+    const radius = 25; // Larger orbit radius
+
+    // ✅ Set orbit center to (-65, 0, 0)
+    const centerX = -45;
+    const centerZ = 0;
+
+    earthRef.current.position.x = centerX + radius * Math.cos(t); // Orbit around X
+    earthRef.current.position.z = centerZ + radius * Math.sin(t); // Orbit around Z
+  });
 
   return (
     <primitive
+      ref={earthRef}
       object={model.scene}
       scale={[1, 1, 1]}
-      position={[-25, 2, 0]}
+      position={[-65, 2, 0]} // Ensure correct starting position
       rotation={[0, 0, 0]}
       dispose={null}
     />
@@ -42,12 +40,12 @@ function LoadingFallback() {
   return (
     <mesh>
       <boxGeometry args={[5, 5, 5]} />
-      <meshStandardMaterial color="gray" wireframe={true} />
+      <meshStandardMaterial color="gray" wireframe />
     </mesh>
   );
 }
 
-// Main component with error boundary
+// Main Earth component
 function Earth() {
   return (
     <Suspense fallback={<LoadingFallback />}>

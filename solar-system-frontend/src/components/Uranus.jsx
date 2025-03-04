@@ -2,11 +2,11 @@ import { useGLTF } from "@react-three/drei";
 import { Suspense, useEffect } from "react";
 
 // Preload the model
-useGLTF.preload("/model/mercury.glb");
+useGLTF.preload("/model/uranus.glb");
 
 function UranusModel() {
-  const model = useGLTF("/model/mercury.glb", true, true);
-  if (model) console.log("Hello");
+  const model = useGLTF("/model/uranus.glb", true, true);
+  //   if (model) console.log("Hello");
   useEffect(() => {
     // Cleanup function
     return () => {
@@ -29,8 +29,8 @@ function UranusModel() {
   return (
     <primitive
       object={model.scene}
-      scale={[1, 1, 1]}
-      position={[10, 4, 0]}
+      scale={[3, 3, 3]}
+      position={[5, 2, 0]}
       rotation={[0, 0, 0]}
       dispose={null}
     />

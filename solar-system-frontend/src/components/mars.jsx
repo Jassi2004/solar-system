@@ -1,36 +1,34 @@
 import { useGLTF } from "@react-three/drei";
-import { Suspense, useEffect } from "react";
+import { Suspense, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 
 // Preload the model
 useGLTF.preload("/model/mars.glb");
 
 function MarsModel() {
-  const model = useGLTF("/model/mars.glb", true, true);
-//   if (model) console.log("Hello");
-  useEffect(() => {
-    // Cleanup function
-    return () => {
-      if (model) {
-        Object.values(model).forEach((value) => {
-          if (value?.dispose) {
-            value.dispose();
-          }
-        });
-      }
-    };
-  }, [model]);
+  const model = useGLTF("/model/mars.glb");
+  const marsRef = useRef(); // Ref for Mars's position
 
-  // Error handling
-  if (!model) {
-    console.error("Failed to load Mars model");
-    return null;
-  }
+  useFrame(({ clock }) => {
+    if (!marsRef.current) return;
+
+    const t = clock.getElapsedTime() * 0.9; // Adjust speed
+    const radius = 25; // Larger orbit radius
+
+    // ✅ Set orbit center to (-75, 0, 0)
+    const centerX = -35;
+    const centerZ = 0;
+
+    marsRef.current.position.x = centerX + radius * Math.cos(t); // Orbit around X
+    marsRef.current.position.z = centerZ + radius * Math.sin(t); // Orbit around Z
+  });
 
   return (
     <primitive
+      ref={marsRef}
       object={model.scene}
       scale={[1.2, 1.2, 1.2]}
-      position={[-20, 3, 0]}
+      position={[-75, 3, 0]} // Ensure correct starting position
       rotation={[0, 0, 0]}
       dispose={null}
     />
@@ -42,12 +40,12 @@ function LoadingFallback() {
   return (
     <mesh>
       <boxGeometry args={[5, 5, 5]} />
-      <meshStandardMaterial color="gray" wireframe={true} />
+      <meshStandardMaterial color="gray" wireframe />
     </mesh>
   );
 }
 
-// Main component with error boundary
+// Main Mars component
 function Mars() {
   return (
     <Suspense fallback={<LoadingFallback />}>
