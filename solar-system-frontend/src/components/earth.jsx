@@ -6,7 +6,7 @@ useGLTF.preload("/model/earth.glb");
 
 function EarthModel() {
     const model = useGLTF("/model/earth.glb", true, true);
-    // if(model) console.log("Hello")
+    if(model) console.log("Hello")
     useEffect(() => {
         // Cleanup function
         return () => {
