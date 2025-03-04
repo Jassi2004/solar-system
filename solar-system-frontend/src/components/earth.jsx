@@ -4,9 +4,9 @@ import { Suspense, useEffect } from "react";
 // Preload the model
 useGLTF.preload("/model/earth.glb");
 
-function earthModel() {
+function EarthModel() {
     const model = useGLTF("/model/earth.glb", true, true);
-    if(model) console.log("Hello")
+    // if(model) console.log("Hello")
     useEffect(() => {
         // Cleanup function
         return () => {
@@ -22,7 +22,7 @@ function earthModel() {
 
     // Error handling
     if (!model) {
-        console.error("Failed to load earth model");
+        console.error("Failed to load Earth model");
         return null;
     }
 
@@ -30,7 +30,7 @@ function earthModel() {
         <primitive
             object={model.scene}
             scale={[.5, .5, .5]}
-            position={[3,0,0]}
+            position={[-8,0,0]}
             rotation={[0, 0, 0]}
             dispose={null}
         />
@@ -48,12 +48,12 @@ function LoadingFallback() {
 }
 
 // Main component with error boundary
-function earth() {
+function Earth() {
     return (
         <Suspense fallback={<LoadingFallback />}>
-            <earthModel />
+            <EarthModel />
         </Suspense>
     );
 }
 
-export default earth;
+export default Earth;
